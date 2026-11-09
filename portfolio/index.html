@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zuka Okropiridze | C++ Robotics & Microcontroller Programmer</title>
+  <meta name="description" content="Portfolio of Zuka Okropiridze, a 19-year-old robotics coder with a STEM background specializing in C++ and microcontroller projects.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              black: '#070a13',
+              dark: '#0e1526',
+              card: '#131c33',
+              cyan: '#00f0ff',
+              purple: '#a855f7',
+              green: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Cyber CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070a13] text-slate-100 min-h-screen relative selection:bg-cyan-500 selection:text-black">
+
+  <!-- Interactive Subtle Background Canvas -->
+  <canvas id="cyber-canvas"></canvas>
+
+  <!-- Top System Status Bar - Simple & Clean -->
+  <div class="relative z-50 border-b border-cyan-500/20 bg-[#070a13]/95 px-4 sm:px-8 py-2.5 text-sm font-mono text-cyan-400 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#10b981]"></span>
+      <span class="text-slate-200 font-semibold tracking-wide">SYSTEM: ONLINE</span>
+      <span class="text-slate-500 hidden sm:inline">|</span>
+      <span class="text-slate-300 hidden sm:inline">C++ Robotics Portfolio</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span id="live-clock" class="text-cyan-300 font-mono text-sm">00:00:00 UTC</span>
+      <button id="sound-toggle" class="text-slate-300 hover:text-cyan-300 transition-colors flex items-center space-x-2 border border-cyan-500/30 px-3 py-1 rounded bg-cyan-950/40 text-xs">
+        <i class="fas fa-volume-up text-cyan-400"></i>
+        <span>SOUND ON</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Primary Navigation Bar - Clear and Easy to Read -->
+  <header class="sticky top-0 z-40 border-b border-cyan-500/20 bg-[#0a0f1d]/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo / Name Badge -->
+      <a href="index.html" class="flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-lg bg-cyan-950/80 border border-cyan-400/60 flex items-center justify-center p-2 shadow-[0_0_12px_rgba(0,240,255,0.25)]">
+          <img src="images/ISO_C++_Logo.svg.webp" alt="C++ Logo" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <span class="font-orbitron font-bold text-xl sm:text-2xl text-white tracking-wide glow-cyan">
+            ZUKA OKROPIRIDZE
+          </span>
+          <div class="text-xs font-mono text-cyan-400 tracking-wider">
+            C++ Robotics & Microcontroller Programmer
+          </div>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation - Large, Legible Links -->
+      <nav class="hidden md:flex items-center space-x-2 lg:space-x-3 font-orbitron text-sm">
+        <a href="index.html" class="px-4 py-2.5 rounded-lg text-cyan-300 bg-cyan-950/60 border border-cyan-400/60 font-semibold shadow-[0_0_10px_rgba(0,240,255,0.25)]">
+          Home
+        </a>
+        <a href="projects.html" class="px-4 py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-cyan-950/30 border border-transparent hover:border-cyan-500/30 transition-all">
+          Projects
+        </a>
+        <a href="skills.html" class="px-4 py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-cyan-950/30 border border-transparent hover:border-cyan-500/30 transition-all">
+          Tech & Skills
+        </a>
+        <a href="contact.html" class="px-4 py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-cyan-950/30 border border-transparent hover:border-cyan-500/30 transition-all">
+          Contact
+        </a>
+      </nav>
+
+      <!-- Quick Action -->
+      <div class="hidden lg:block">
+        <a href="contact.html" class="cyber-btn px-5 py-2.5 text-sm">
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button id="mobile-menu-btn" class="md:hidden p-2.5 text-cyan-400 border border-cyan-500/40 rounded-lg bg-cyan-950/40">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-cyan-500/20 bg-[#0a0f1d] px-6 py-4 space-y-3 font-orbitron text-base">
+      <a href="index.html" class="block px-3 py-2 rounded text-cyan-300 bg-cyan-950/60 border border-cyan-400/40">Home</a>
+      <a href="projects.html" class="block px-3 py-2 rounded text-slate-300 hover:text-cyan-300">Projects</a>
+      <a href="skills.html" class="block px-3 py-2 rounded text-slate-300 hover:text-cyan-300">Tech & Skills</a>
+      <a href="contact.html" class="block px-3 py-2 rounded text-slate-300 hover:text-cyan-300">Contact</a>
+    </div>
+  </header>
+
+  <!-- Main Hero Section - Spacious and Uncluttered -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-24">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+      
+      <!-- Left Column: Clear Introduction -->
+      <div class="lg:col-span-7 space-y-7">
+        
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-cyan-400/40 bg-cyan-950/50 text-cyan-300 text-sm font-mono">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          <span>ROBOTICS & EMBEDDED SYSTEMS</span>
+        </div>
+
+        <div class="space-y-3">
+          <h1 class="text-4xl sm:text-6xl font-bold font-orbitron text-white tracking-tight leading-tight">
+            Hi, I'm <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 glow-cyan">
+              Zuka Okropiridze
+            </span>
+          </h1>
+          <p class="text-xl sm:text-2xl font-semibold text-cyan-300/90 font-rajdhani">
+            19-Year-Old C++ Robotics Coder & STEM Graduate
+          </p>
+        </div>
+
+        <!-- Easy to Read Bio in Plain Words -->
+        <p class="text-slate-300 text-lg sm:text-xl leading-relaxed">
+          I build physical machines and automated systems using the <strong class="text-white">C++</strong> programming language and small computer chips called <strong class="text-cyan-300">microcontrollers</strong>. From self-driving robots that follow lines on the ground to automated parking barriers and smart home safety systems, I bring code to life in the real physical world.
+        </p>
+
+        <!-- 3 Big, Clean Key Facts (Age, Education, Specialization) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          
+          <div class="cyber-card p-5 border-cyan-500/30 text-center sm:text-left">
+            <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">MY AGE</div>
+            <div class="text-3xl font-orbitron font-bold text-white mt-1">19 <span class="text-sm font-normal text-cyan-400">Years</span></div>
+            <div class="text-sm text-cyan-300/80 mt-1">Active Developer</div>
+          </div>
+
+          <div class="cyber-card p-5 border-purple-500/30 text-center sm:text-left">
+            <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">EDUCATION</div>
+            <div class="text-3xl font-orbitron font-bold text-purple-300 mt-1">STEM</div>
+            <div class="text-sm text-purple-300/80 mt-1">Science & Tech</div>
+          </div>
+
+          <div class="cyber-card p-5 border-emerald-500/30 text-center sm:text-left">
+            <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">CORE LANGUAGE</div>
+            <div class="text-3xl font-orbitron font-bold text-emerald-300 mt-1">C++</div>
+            <div class="text-sm text-emerald-300/80 mt-1">High-Speed Code</div>
+          </div>
+
+        </div>
+
+        <!-- Clear Action Buttons -->
+        <div class="pt-4 flex flex-wrap gap-4 items-center">
+          <a href="projects.html" class="cyber-btn px-6 py-3.5 text-base shadow-[0_0_15px_rgba(0,240,255,0.35)]">
+            <i class="fas fa-robot mr-2.5"></i> View My Projects
+          </a>
+          <a href="contact.html" class="cyber-btn-purple px-6 py-3.5 text-base">
+            <i class="fas fa-envelope mr-2.5"></i> Contact Me
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Clean Profile Image Card -->
+      <div class="lg:col-span-5">
+        <div class="cyber-card hud-corner p-6 border-cyan-400/40 space-y-4">
+          
+          <!-- Image Container with Clean Frame -->
+          <div class="rounded-xl overflow-hidden border border-cyan-500/30 relative">
+            <img 
+              src="images/images.jfif" 
+              alt="Zuka Okropiridze" 
+              class="w-full h-80 sm:h-96 object-cover object-center"
+            >
+            <div class="absolute bottom-3 left-3 bg-[#070a13]/90 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-cyan-400/40 text-xs font-mono text-cyan-300 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>ZUKA OKROPIRIDZE</span>
+            </div>
+          </div>
+
+          <!-- Simple Summary Info Below Photo -->
+          <div class="bg-black/40 rounded-xl p-4 border border-cyan-500/20 text-sm space-y-2">
+            <div class="flex justify-between text-slate-300">
+              <span class="text-slate-400">Location & Phone:</span>
+              <a href="tel:+995598448891" class="font-semibold text-emerald-400 hover:underline">Georgia (598 44 88 91)</a>
+            </div>
+            <div class="flex justify-between text-slate-300">
+              <span class="text-slate-400">Direct Gmail:</span>
+              <a href="mailto:okropiridzezuka6@gmail.com" class="font-semibold text-cyan-300 hover:underline font-mono text-xs">okropiridzezuka6@gmail.com</a>
+            </div>
+            <div class="flex justify-between text-slate-300">
+              <span class="text-slate-400">Microcontrollers:</span>
+              <span class="font-semibold text-purple-300">Arduino, ESP32, STM32</span>
+            </div>
+            <div class="flex justify-between text-slate-300">
+              <span class="text-slate-400">Availability:</span>
+              <span class="font-semibold text-emerald-400">Ready for New Projects</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SECTION: WHAT KIND OF ROBOTICS PROJECTS CAN I MAKE? -->
+    <!-- Less crowded, highly readable, clear, straightforward -->
+    <!-- ========================================================================= -->
+    <section class="mt-28 sm:mt-36">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-cyan-400/40 bg-cyan-950/40 text-cyan-300 text-sm font-mono">
+          <i class="fas fa-microchip"></i>
+          <span>WHAT I CAN BUILD FOR YOU</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold font-orbitron text-white">
+          Robotics Projects I Build with <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">C++ & Microcontrollers</span>
+        </h2>
+        <p class="text-slate-300 text-lg leading-relaxed pt-1">
+          Here is a simple look at the real-world machines, robots, and smart automated devices I can program and assemble.
+        </p>
+      </div>
+
+      <!-- 4 Clean, Spacious Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-14">
+        
+        <!-- Project Type 1: Autonomous Mobile Robots -->
+        <div class="cyber-card hud-corner p-7 sm:p-8 border-cyan-500/30 space-y-4 hover:border-cyan-400 transition-all">
+          <div class="w-14 h-14 rounded-xl bg-cyan-950/80 border border-cyan-400/50 flex items-center justify-center text-cyan-400 text-2xl shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-orbitron text-white">
+            1. Autonomous Mobile Robots
+          </h3>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            Self-driving wheeled robots that navigate autonomously. Using optical infrared sensors, ultrasonic distance sensors, and C++ mathematical control formulas (called PID loops), the robot stays centered on tracks, follows lines, and steers around obstacles without human intervention.
+          </p>
+          <div class="pt-2 text-sm font-mono text-cyan-300 flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/30">Line Followers</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/30">Obstacle Avoidance</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/30">Motor Speed Tuning</span>
+          </div>
+        </div>
+
+        <!-- Project Type 2: Smart Home Systems -->
+        <div class="cyber-card hud-corner p-7 sm:p-8 border-purple-500/30 space-y-4 hover:border-purple-400 transition-all">
+          <div class="w-14 h-14 rounded-xl bg-purple-950/80 border border-purple-400/50 flex items-center justify-center text-purple-400 text-2xl shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+            <i class="fas fa-house-signal"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-orbitron text-white">
+            2. Smart Home & Safety Systems
+          </h3>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            Automated home controllers powered by small computer chips (like ESP32). They monitor room temperature, detect smoke or gas leaks, sound alarms, turn on ventilation fans, and switch electrical lights or appliances on and off safely.
+          </p>
+          <div class="pt-2 text-sm font-mono text-purple-300 flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/30">Gas & Smoke Detection</span>
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/30">Relay Switches</span>
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/30">OLED Displays</span>
+          </div>
+        </div>
+
+        <!-- Project Type 3: RFID & Parking Gates -->
+        <div class="cyber-card hud-corner p-7 sm:p-8 border-emerald-500/30 space-y-4 hover:border-emerald-400 transition-all">
+          <div class="w-14 h-14 rounded-xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center text-emerald-400 text-2xl shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <i class="fas fa-id-card-clip"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-orbitron text-white">
+            3. RFID Gates & Parking Barriers
+          </h3>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            Electronic security gates and automated parking barriers. A person can tap an authorized RFID card, or a car can pull up to an ultrasonic sensor. The system verifies the identity, unlocks the electric lock, lifts the barrier arm, and counts open parking spots on a screen.
+          </p>
+          <div class="pt-2 text-sm font-mono text-emerald-300 flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/30">RFID Keycard Scanner</span>
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/30">Motorized Gate Arm</span>
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/30">Parking Spot Counter</span>
+          </div>
+        </div>
+
+        <!-- Project Type 4: Traffic Light Systems -->
+        <div class="cyber-card hud-corner p-7 sm:p-8 border-cyan-500/30 space-y-4 hover:border-cyan-400 transition-all">
+          <div class="w-14 h-14 rounded-xl bg-cyan-950/80 border border-cyan-400/50 flex items-center justify-center text-cyan-400 text-2xl shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+            <i class="fas fa-traffic-light"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-orbitron text-white">
+            4. Smart Traffic Light Controllers
+          </h3>
+          <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+            Intelligent four-way traffic lights programmed with strict safety rules. They sequence green, yellow, and red lights in an exact order. When a pedestrian presses a crosswalk button, the code safely changes the traffic lights so people can cross without danger.
+          </p>
+          <div class="pt-2 text-sm font-mono text-cyan-300 flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/30">Intersection Timing</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/30">Pedestrian Crosswalk</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/30">Fail-Safe Logic</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECTION: CALL TO ACTION BANNER -->
+    <div class="mt-24 cyber-card p-8 sm:p-12 border-cyan-500/30 text-center space-y-5">
+      <h3 class="text-2xl sm:text-4xl font-bold font-orbitron text-white">
+        Want to See My Previous Working Builds?
+      </h3>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
+        I have documented my previous projects with clear descriptions, photos, and interactive simulators so you can test them live.
+      </p>
+      <div class="pt-2 flex flex-wrap justify-center gap-4">
+        <a href="projects.html" class="cyber-btn px-7 py-3.5 text-base">
+          <i class="fas fa-eye mr-2"></i> Go to Projects Page
+        </a>
+        <a href="contact.html" class="cyber-btn-green px-7 py-3.5 text-base">
+          <i class="fas fa-envelope mr-2"></i> Send Me a Message
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Clean, Spacious Footer -->
+  <footer class="relative z-10 border-t border-cyan-500/20 bg-[#050811] py-10 text-sm text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+      <div>
+        <div class="font-orbitron font-bold text-white text-base">ZUKA OKROPIRIDZE</div>
+        <div class="text-slate-400 text-xs mt-0.5">19-Year-Old C++ Robotics & Microcontroller Developer (STEM)</div>
+      </div>
+      <div class="flex items-center space-x-6 font-mono text-sm">
+        <a href="index.html" class="text-cyan-400">Home</a>
+        <a href="projects.html" class="hover:text-cyan-400 transition-colors">Projects</a>
+        <a href="skills.html" class="hover:text-cyan-400 transition-colors">Tech & Skills</a>
+        <a href="contact.html" class="hover:text-cyan-400 transition-colors">Contact</a>
+        <a href="inbox.html" class="text-slate-500 hover:text-emerald-400 transition-colors flex items-center space-x-1" title="Zuka's Private Message Inbox">
+          <i class="fas fa-lock text-xs"></i>
+          <span>Inbox</span>
+        </a>
+      </div>
+      <div class="text-slate-500 text-xs">
+        &copy; 2026 Zuka Okropiridze. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

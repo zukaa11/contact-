@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Zuka Okropiridze - C++ Robotics</title>
+  <meta name="description" content="Previous robotics and microcontroller projects by Zuka Okropiridze: Line Following Robot, Smart Home, RFID Gates, Parking Barriers, and Traffic Lights.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              black: '#070a13',
+              dark: '#0e1526',
+              card: '#131c33',
+              cyan: '#00f0ff',
+              purple: '#a855f7',
+              green: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Cyber CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070a13] text-slate-100 min-h-screen relative selection:bg-cyan-500 selection:text-black">
+
+  <!-- Interactive Background Canvas -->
+  <canvas id="cyber-canvas"></canvas>
+
+  <!-- Top System Bar -->
+  <div class="relative z-50 border-b border-cyan-500/20 bg-[#070a13]/95 px-4 sm:px-8 py-2.5 text-sm font-mono text-cyan-400 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#10b981]"></span>
+      <span class="text-slate-200 font-semibold tracking-wide">PROJECT ARCHIVE: 5 COMPLETED BUILDS</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span id="live-clock" class="text-cyan-300 font-mono text-sm">00:00:00 UTC</span>
+      <button id="sound-toggle" class="text-slate-300 hover:text-cyan-300 transition-colors flex items-center space-x-2 border border-cyan-500/30 px-3 py-1 rounded bg-cyan-950/40 text-xs">
+        <i class="fas fa-volume-up text-cyan-400"></i>
+        <span>SOUND ON</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Primary Navigation -->
+  <header class="sticky top-0 z-40 border-b border-cyan-500/20 bg-[#0a0f1d]/95 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <a href="index.html" class="flex items-center space-x-3">
+        <div class="w-12 h-12 rounded-lg bg-cyan-950/80 border border-cyan-400/60 flex items-center justify-center p-2 shadow-[0_0_12px_rgba(0,240,255,0.25)]">
+          <img src="images/ISO_C++_Logo.svg.webp" alt="C++ Logo" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <span class="font-orbitron font-bold text-xl sm:text-2xl text-white tracking-wide glow-cyan">
+            ZUKA OKROPIRIDZE
+          </span>
+          <div class="text-xs font-mono text-cyan-400 tracking-wider">
+            C++ Robotics & Microcontroller Programmer
+          </div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-2 lg:space-x-3 font-orbitron text-sm">
+        <a href="index.html" class="px-4 py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-cyan-950/30 border border-transparent hover:border-cyan-500/30 transition-all">
+          Home
+        </a>
+        <a href="projects.html" class="px-4 py-2.5 rounded-lg text-cyan-300 bg-cyan-950/60 border border-cyan-400/60 font-semibold shadow-[0_0_10px_rgba(0,240,255,0.25)]">
+          Projects
+        </a>
+        <a href="skills.html" class="px-4 py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-cyan-950/30 border border-transparent hover:border-cyan-500/30 transition-all">
+          Tech & Skills
+        </a>
+        <a href="contact.html" class="px-4 py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-cyan-950/30 border border-transparent hover:border-cyan-500/30 transition-all">
+          Contact
+        </a>
+      </nav>
+
+      <div class="hidden lg:block">
+        <a href="contact.html" class="cyber-btn px-5 py-2.5 text-sm">
+          Get in Touch
+        </a>
+      </div>
+
+      <button id="mobile-menu-btn" class="md:hidden p-2.5 text-cyan-400 border border-cyan-500/40 rounded-lg bg-cyan-950/40">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-cyan-500/20 bg-[#0a0f1d] px-6 py-4 space-y-3 font-orbitron text-base">
+      <a href="index.html" class="block px-3 py-2 rounded text-slate-300 hover:text-cyan-300">Home</a>
+      <a href="projects.html" class="block px-3 py-2 rounded text-cyan-300 bg-cyan-950/60 border border-cyan-400/40">Projects</a>
+      <a href="skills.html" class="block px-3 py-2 rounded text-slate-300 hover:text-cyan-300">Tech & Skills</a>
+      <a href="contact.html" class="block px-3 py-2 rounded text-slate-300 hover:text-cyan-300">Contact</a>
+    </div>
+  </header>
+
+  <!-- Projects Main Content - Spacious & Clear -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24">
+    
+    <!-- Page Header -->
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-cyan-400/40 bg-cyan-950/40 text-cyan-300 text-sm font-mono">
+        <i class="fas fa-folder-open"></i>
+        <span>PREVIOUS WORK & HARDWARE BUILDS</span>
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-bold font-orbitron text-white">
+        My Previous <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 glow-cyan">Robotics Projects</span>
+      </h1>
+      <p class="text-slate-300 text-lg leading-relaxed pt-1">
+        Here are the completed projects I have built and programmed using C++ and microcontrollers. Each one solves a real physical task.
+      </p>
+    </div>
+
+    <!-- 5 Clean Project Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 mt-14">
+      
+      <!-- 1. LINE FOLLOWING ROBOT -->
+      <div class="cyber-card hud-corner p-6 sm:p-8 border-cyan-500/30 flex flex-col justify-between space-y-6">
+        <div class="space-y-5">
+          
+          <!-- Image -->
+          <div class="rounded-xl overflow-hidden border border-cyan-500/30">
+            <img 
+              src="images/images (3).jfif" 
+              alt="Line Following Robot" 
+              class="w-full h-64 sm:h-72 object-cover object-center"
+            >
+          </div>
+
+          <div>
+            <div class="text-xs font-mono text-cyan-400 uppercase tracking-wider">PROJECT 01 // AUTONOMOUS ROBOT</div>
+            <h3 class="text-2xl sm:text-3xl font-bold font-orbitron text-white mt-1">
+              Autonomous Line Following Robot
+            </h3>
+          </div>
+
+          <!-- Plain English Explanation -->
+          <div class="space-y-3 text-slate-300 text-base leading-relaxed">
+            <p>
+              <strong class="text-white">What it does:</strong> This is a small wheeled robot that drives by itself along a black line on the floor without any remote control or human driver.
+            </p>
+            <p>
+              <strong class="text-white">How it works:</strong> It has 8 infrared sensors underneath looking at the floor. When the robot drifts slightly off-course, the sensors detect it instantly. My C++ code runs a mathematical balance formula (called PID) that adjusts the left and right wheel speeds hundreds of times per second so it steers back smoothly.
+            </p>
+          </div>
+
+          <!-- Key Hardware Elements -->
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">Arduino / STM32</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">8x Infrared Sensors</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">Dual Motor Driver</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">PID Algorithm</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-cyan-500/20 flex items-center justify-between">
+          <button class="open-modal-btn cyber-btn px-4 py-2 text-xs" data-project="line-follower">
+            <i class="fas fa-code mr-2"></i> View Code & Architecture
+          </button>
+          <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+            <i class="fas fa-check-circle"></i> Tested & Working
+          </span>
+        </div>
+      </div>
+
+      <!-- 2. SMART HOME AUTOMATION -->
+      <div class="cyber-card hud-corner p-6 sm:p-8 border-purple-500/30 flex flex-col justify-between space-y-6">
+        <div class="space-y-5">
+          
+          <!-- Visual Box -->
+          <div class="rounded-xl border border-purple-500/30 bg-[#080d1a] h-64 sm:h-72 flex flex-col items-center justify-center p-6 text-center space-y-3">
+            <div class="w-20 h-20 rounded-2xl bg-purple-950/80 border border-purple-400/50 flex items-center justify-center text-purple-400 text-4xl shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+              <i class="fas fa-house-signal"></i>
+            </div>
+            <div class="font-orbitron font-bold text-white text-xl">Smart Home Safety & Control</div>
+            <div class="text-sm font-mono text-purple-300">Temperature &bull; Gas Sensor &bull; Safety Relays</div>
+          </div>
+
+          <div>
+            <div class="text-xs font-mono text-purple-400 uppercase tracking-wider">PROJECT 02 // HOME AUTOMATION</div>
+            <h3 class="text-2xl sm:text-3xl font-bold font-orbitron text-white mt-1">
+              Smart Home Safety & Automation
+            </h3>
+          </div>
+
+          <!-- Plain English Explanation -->
+          <div class="space-y-3 text-slate-300 text-base leading-relaxed">
+            <p>
+              <strong class="text-white">What it does:</strong> A central electronic box that monitors home conditions like temperature, humidity, and dangerous smoke or gas leaks.
+            </p>
+            <p>
+              <strong class="text-white">How it works:</strong> A dual-core ESP32 microcontroller continuously reads the sensors. If it detects smoke or gas above a safe level, it instantly triggers an alarm, automatically turns on an exhaust fan, and cuts off the electrical switch to keep the house safe.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300">ESP32 Chip</span>
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300">MQ-2 Gas Sensor</span>
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300">DHT22 Temperature</span>
+            <span class="px-3 py-1 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300">OLED Screen</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-purple-500/20 flex items-center justify-between">
+          <button class="open-modal-btn cyber-btn-purple px-4 py-2 text-xs" data-project="smart-home">
+            <i class="fas fa-code mr-2"></i> View Code & Architecture
+          </button>
+          <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+            <i class="fas fa-check-circle"></i> Deployed
+          </span>
+        </div>
+      </div>
+
+      <!-- 3. RFID GATES -->
+      <div class="cyber-card hud-corner p-6 sm:p-8 border-emerald-500/30 flex flex-col justify-between space-y-6">
+        <div class="space-y-5">
+          
+          <div class="rounded-xl border border-emerald-500/30 bg-[#080d1a] h-64 sm:h-72 flex flex-col items-center justify-center p-6 text-center space-y-3">
+            <div class="w-20 h-20 rounded-2xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center text-emerald-400 text-4xl shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+              <i class="fas fa-id-card-clip"></i>
+            </div>
+            <div class="font-orbitron font-bold text-white text-xl">RFID Smart Security Gate</div>
+            <div class="text-sm font-mono text-emerald-300">Card Scanner &bull; Electric Lock &bull; Motorized Gate</div>
+          </div>
+
+          <div>
+            <div class="text-xs font-mono text-emerald-400 uppercase tracking-wider">PROJECT 03 // SECURITY ACCESS</div>
+            <h3 class="text-2xl sm:text-3xl font-bold font-orbitron text-white mt-1">
+              RFID Smart Gates & Security Lock
+            </h3>
+          </div>
+
+          <div class="space-y-3 text-slate-300 text-base leading-relaxed">
+            <p>
+              <strong class="text-white">What it does:</strong> A secure door or turnstile gate that only opens when someone taps an authorized security card or badge.
+            </p>
+            <p>
+              <strong class="text-white">How it works:</strong> An RFID card reader scans the unique identification number inside the card wirelessly. The C++ code checks this number against a saved list of allowed keys in memory. If matched, it unlocks an electromagnetic latch and rotates a motor to open the gate.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300">RC522 RFID Module</span>
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300">Electric Lock Latch</span>
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300">Servo Motor</span>
+            <span class="px-3 py-1 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300">Audible Buzzer</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-emerald-500/20 flex items-center justify-between">
+          <button class="open-modal-btn cyber-btn-green px-4 py-2 text-xs" data-project="rfid-gate">
+            <i class="fas fa-code mr-2"></i> View Code & Architecture
+          </button>
+          <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+            <i class="fas fa-check-circle"></i> Operational
+          </span>
+        </div>
+      </div>
+
+      <!-- 4. PARKING GATES -->
+      <div class="cyber-card hud-corner p-6 sm:p-8 border-cyan-500/30 flex flex-col justify-between space-y-6">
+        <div class="space-y-5">
+          
+          <div class="rounded-xl border border-cyan-500/30 bg-[#080d1a] h-64 sm:h-72 flex flex-col items-center justify-center p-6 text-center space-y-3">
+            <div class="w-20 h-20 rounded-2xl bg-cyan-950/80 border border-cyan-400/50 flex items-center justify-center text-cyan-400 text-4xl shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+              <i class="fas fa-square-parking"></i>
+            </div>
+            <div class="font-orbitron font-bold text-white text-xl">Automated Parking Gate</div>
+            <div class="text-sm font-mono text-cyan-300">Distance Sensor &bull; Barrier Arm &bull; Space Counter</div>
+          </div>
+
+          <div>
+            <div class="text-xs font-mono text-cyan-400 uppercase tracking-wider">PROJECT 04 // AUTOMATED PARKING</div>
+            <h3 class="text-2xl sm:text-3xl font-bold font-orbitron text-white mt-1">
+              Automated Parking Barrier System
+            </h3>
+          </div>
+
+          <div class="space-y-3 text-slate-300 text-base leading-relaxed">
+            <p>
+              <strong class="text-white">What it does:</strong> A parking garage barrier that detects approaching cars, lifts the arm, and updates a screen showing how many parking spaces are left.
+            </p>
+            <p>
+              <strong class="text-white">How it works:</strong> An ultrasonic sensor bounces sound waves off the front of a vehicle to measure distance. When the car stops close enough, the barrier arm lifts smoothly. Once the car passes through, the barrier lowers safely and decrements the open space counter.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">Ultrasonic Sonar</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">Servo Barrier Arm</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">LCD Display Screen</span>
+            <span class="px-3 py-1 rounded bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">Safety Interlocks</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-cyan-500/20 flex items-center justify-between">
+          <button class="open-modal-btn cyber-btn px-4 py-2 text-xs" data-project="parking-gate">
+            <i class="fas fa-code mr-2"></i> View Code & Architecture
+          </button>
+          <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+            <i class="fas fa-check-circle"></i> Operational
+          </span>
+        </div>
+      </div>
+
+      <!-- 5. SYNCHRONIZED TRAFFIC LIGHTS -->
+      <div class="cyber-card hud-corner p-6 sm:p-8 border-yellow-500/30 flex flex-col justify-between space-y-6 lg:col-span-2">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-5 rounded-xl border border-yellow-500/30 bg-[#080d1a] h-64 sm:h-72 flex flex-col items-center justify-center p-6 text-center space-y-3">
+            <div class="w-20 h-20 rounded-2xl bg-yellow-950/80 border border-yellow-400/50 flex items-center justify-center text-yellow-300 text-4xl shadow-[0_0_20px_rgba(250,204,21,0.3)]">
+              <i class="fas fa-traffic-light"></i>
+            </div>
+            <div class="font-orbitron font-bold text-white text-xl">4-Way Traffic Light System</div>
+            <div class="text-sm font-mono text-yellow-300">Road Signals &bull; Pedestrian Button &bull; Safe Timing</div>
+          </div>
+
+          <div class="lg:col-span-7 space-y-4">
+            <div>
+              <div class="text-xs font-mono text-yellow-400 uppercase tracking-wider">PROJECT 05 // INFRASTRUCTURE</div>
+              <h3 class="text-2xl sm:text-3xl font-bold font-orbitron text-white mt-1">
+                Synchronized Traffic Lights & Pedestrian Crosswalk
+              </h3>
+            </div>
+
+            <div class="space-y-3 text-slate-300 text-base leading-relaxed">
+              <p>
+                <strong class="text-white">What it does:</strong> A fully coordinated traffic light system for a road intersection with pedestrian crossing signals.
+              </p>
+              <p>
+                <strong class="text-white">How it works:</strong> Programmed with an organized state machine in C++. The green, yellow, and red lights cycle automatically without overlapping. When a pedestrian pushes the crosswalk button, the code recognizes the interrupt, safely turns the road yellow then red, and activates the green pedestrian walk signal.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 text-xs font-mono pt-1">
+              <span class="px-3 py-1 rounded bg-yellow-950/70 border border-yellow-500/40 text-yellow-300">C++ State Machine</span>
+              <span class="px-3 py-1 rounded bg-yellow-950/70 border border-yellow-500/40 text-yellow-300">Pedestrian Button Interrupt</span>
+              <span class="px-3 py-1 rounded bg-yellow-950/70 border border-yellow-500/40 text-yellow-300">Accident Prevention Logic</span>
+            </div>
+
+            <div class="pt-4 border-t border-yellow-500/20 flex items-center justify-between">
+              <button class="open-modal-btn cyber-btn px-4 py-2 text-xs" data-project="traffic-light">
+                <i class="fas fa-code mr-2"></i> View Code & Architecture
+              </button>
+              <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                <i class="fas fa-check-circle"></i> Operational
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- INTERACTIVE SIMULATORS - UNCLUTTERED, BIG BUTTONS, EASY TO TEST -->
+    <!-- ========================================================================= -->
+    <section class="mt-28 sm:mt-36 space-y-10">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-cyan-400/40 bg-cyan-950/40 text-cyan-300 text-sm font-mono">
+          <i class="fas fa-play"></i>
+          <span>TEST THEM LIVE IN YOUR BROWSER</span>
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold font-orbitron text-white">
+          Interactive <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Hardware Simulators</span>
+        </h2>
+        <p class="text-slate-300 text-lg leading-relaxed pt-1">
+          Click the simple buttons below to see how the code and sensors behave in real life.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
+        
+        <!-- 1. Line Follower Simulator -->
+        <div class="cyber-card hud-corner p-6 sm:p-7 border-cyan-500/30 space-y-5">
+          <div class="flex items-center justify-between border-b border-cyan-500/20 pb-3">
+            <div>
+              <h3 class="text-xl font-bold font-orbitron text-white">1. Line Follower Robot Simulator</h3>
+              <p class="text-xs text-slate-400">Watch the robot steer along the track</p>
+            </div>
+            <button id="lf-run-btn" class="cyber-btn px-4 py-2 text-xs">
+              <i class="fas fa-pause mr-1"></i> PAUSE
+            </button>
+          </div>
+
+          <div class="rounded-xl overflow-hidden border border-cyan-500/30 bg-[#04060c]">
+            <canvas id="line-follower-canvas" class="w-full h-[280px] block"></canvas>
+          </div>
+
+          <div class="flex justify-between items-center text-sm font-mono bg-black/40 p-3 rounded-lg border border-cyan-500/20">
+            <span class="text-slate-300">STEERING CORRECTION: <span id="lf-error" class="text-emerald-400 font-bold">0.00</span></span>
+            <span class="text-cyan-300 text-xs">Closed-Loop PID Tracking</span>
+          </div>
+        </div>
+
+        <!-- 2. Parking Barrier Simulator -->
+        <div class="cyber-card hud-corner p-6 sm:p-7 border-emerald-500/30 space-y-5">
+          <div class="flex items-center justify-between border-b border-emerald-500/20 pb-3">
+            <div>
+              <h3 class="text-xl font-bold font-orbitron text-white">2. RFID Parking Gate Simulator</h3>
+              <p class="text-xs text-slate-400">Tap the button to simulate a car arrival</p>
+            </div>
+            <button id="gate-trigger-btn" class="cyber-btn-green px-4 py-2 text-xs">
+              <i class="fas fa-id-card mr-1.5"></i> Swipe RFID Card
+            </button>
+          </div>
+
+          <div class="rounded-xl border border-emerald-500/30 bg-[#04060c] p-6 h-[280px] flex flex-col justify-between">
+            <div class="flex justify-between items-center text-sm font-mono">
+              <div class="flex items-center space-x-2">
+                <span id="gate-led" class="w-3.5 h-3.5 rounded-full bg-red-500 inline-block"></span>
+                <span class="text-slate-300 font-semibold">GATE STATUS</span>
+              </div>
+              <div class="text-cyan-300 font-bold">
+                VACANT SPOTS: <span id="parking-counter" class="text-white text-base">14</span>
+              </div>
+            </div>
+
+            <!-- Barrier Graphic -->
+            <div class="relative w-full h-28 flex items-center justify-center">
+              <div class="w-12 h-24 bg-slate-800 border-2 border-emerald-400 rounded-t-lg relative z-20 flex flex-col items-center justify-center">
+                <i class="fas fa-microchip text-emerald-300 text-sm"></i>
+              </div>
+              <div id="gate-boom" class="origin-left w-52 h-4 bg-gradient-to-r from-red-600 via-white to-red-600 border border-slate-900 rounded-r-full shadow-lg transition-transform duration-700 ease-out z-10" style="transform: rotate(0deg);"></div>
+            </div>
+
+            <div class="bg-black/80 rounded p-2.5 border border-emerald-500/30 text-center font-mono">
+              <span id="gate-status" class="text-slate-300 text-xs sm:text-sm">Click "Swipe RFID Card" to open the gate</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-slate-400 text-center">
+            Simulates 13.56MHz RFID authentication & servo motor opening.
+          </div>
+        </div>
+
+        <!-- 3. Traffic Light Simulator -->
+        <div class="cyber-card hud-corner p-6 sm:p-7 border-yellow-500/30 space-y-5">
+          <div class="flex items-center justify-between border-b border-yellow-500/20 pb-3">
+            <div>
+              <h3 class="text-xl font-bold font-orbitron text-white">3. Traffic Light Simulator</h3>
+              <p class="text-xs text-slate-400">Request pedestrian crossing</p>
+            </div>
+            <button id="tf-interrupt-btn" class="cyber-btn px-4 py-2 text-xs">
+              <i class="fas fa-hand mr-1.5"></i> Push Walk Button
+            </button>
+          </div>
+
+          <div class="rounded-xl border border-yellow-500/30 bg-[#04060c] p-6 h-[260px] flex items-center justify-around">
+            <div class="bg-slate-900 border-2 border-slate-700 rounded-xl p-3 flex flex-col space-y-3">
+              <span class="text-[10px] font-mono text-slate-400 text-center">ROAD</span>
+              <div id="tf-ns-red" class="w-10 h-10 rounded-full bg-red-600 shadow-[0_0_12px_#ff0055]"></div>
+              <div id="tf-ns-yellow" class="w-10 h-10 rounded-full bg-yellow-400" style="opacity: 0.15;"></div>
+              <div id="tf-ns-green" class="w-10 h-10 rounded-full bg-emerald-500 shadow-[0_0_12px_#00ff9d]"></div>
+            </div>
+
+            <div class="bg-slate-900 border-2 border-slate-700 rounded-xl p-3 flex flex-col space-y-4 items-center">
+              <span class="text-[10px] font-mono text-slate-400">WALK</span>
+              <div id="tf-ped-dont" class="w-10 h-10 rounded-lg bg-red-950 border border-red-500 flex items-center justify-center text-red-500 text-xl">
+                <i class="fas fa-hand"></i>
+              </div>
+              <div id="tf-ped-walk" class="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-500 flex items-center justify-center text-emerald-400 text-xl" style="opacity: 0.15;">
+                <i class="fas fa-person-walking"></i>
+              </div>
+            </div>
+
+            <div class="space-y-2 font-mono text-xs">
+              <div class="text-slate-400">CURRENT SIGNAL:</div>
+              <div id="tf-state-label" class="text-yellow-400 font-bold bg-yellow-950/60 p-3 rounded-lg border border-yellow-500/40">
+                STATE: NORTH_SOUTH_GREEN
+              </div>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-slate-400 text-center">
+            Pushing the button safely changes the lights for pedestrians.
+          </div>
+        </div>
+
+        <!-- 4. Smart Home Simulator -->
+        <div class="cyber-card hud-corner p-6 sm:p-7 border-purple-500/30 space-y-5">
+          <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+            <div>
+              <h3 class="text-xl font-bold font-orbitron text-white">4. Smart Home Gas Sensor</h3>
+              <p class="text-xs text-slate-400">Slide to test emergency fan activation</p>
+            </div>
+            <span class="text-xs font-mono text-purple-300">ESP32 Firmware</span>
+          </div>
+
+          <div class="rounded-xl border border-purple-500/30 bg-[#04060c] p-6 h-[260px] flex flex-col justify-between">
+            <div class="space-y-2">
+              <label class="text-sm font-mono text-slate-300 flex justify-between">
+                <span>SLIDE GAS/SMOKE LEVEL:</span>
+                <span id="sh-gas-val" class="text-cyan-400 font-bold">120 PPM</span>
+              </label>
+              <input type="range" id="sh-gas-slider" min="50" max="800" step="10" value="120" class="w-full accent-purple-400">
+              <input type="range" id="sh-temp-slider" min="15" max="45" step="1" value="24" class="hidden">
+              <span class="text-xs font-mono text-slate-500">Threshold: Above 400 PPM activates exhaust fan</span>
+            </div>
+
+            <div class="bg-black/80 rounded-xl p-3 border border-purple-500/30 space-y-2 font-mono text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-400">EXHAUST FAN:</span>
+                <span id="sh-fan-relay" class="text-emerald-400">RELAY OFF [STANDBY]</span>
+              </div>
+              <div id="sh-alarm-hud" class="text-emerald-400 text-xs border-t border-purple-500/20 pt-1.5">
+                STATUS: ALL SENSORS NOMINAL
+              </div>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-slate-400 text-center">
+            Slide the gas level above 400 PPM to see safety shut-offs engage.
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ARCHITECTURE & CODE MODAL (CLEAN AND BIG TEXT) -->
+  <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
+    <div class="cyber-card hud-corner rounded-2xl max-w-3xl w-full border border-cyan-400/60 bg-[#0a0f1d] p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-cyan-500/20 pb-4">
+        <div>
+          <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">// CODE & BLUEPRINT INSPECTION</span>
+          <h3 id="modal-title" class="text-2xl font-orbitron font-bold text-white mt-1">Project Details</h3>
+        </div>
+        <button id="close-modal-btn" class="text-slate-400 hover:text-cyan-400 text-2xl transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div id="modal-content" class="space-y-4 font-mono text-sm text-slate-300">
+        <!-- Content injected dynamically via JavaScript -->
+      </div>
+
+      <div class="border-t border-cyan-500/20 pt-4 flex justify-between items-center text-xs font-mono">
+        <span class="text-slate-400">DEVELOPER: ZUKA OKROPIRIDZE</span>
+        <button id="close-modal-btn2" class="cyber-btn px-5 py-2 text-xs">
+          Close Window
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-cyan-500/20 bg-[#050811] py-10 text-sm text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
+      <div>
+        <div class="font-orbitron font-bold text-white text-base">ZUKA OKROPIRIDZE</div>
+        <div class="text-slate-400 text-xs mt-0.5">19-Year-Old C++ Robotics & Microcontroller Developer (STEM)</div>
+      </div>
+      <div class="flex items-center space-x-6 font-mono text-sm">
+        <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
+        <a href="projects.html" class="text-cyan-400">Projects</a>
+        <a href="skills.html" class="hover:text-cyan-400 transition-colors">Tech & Skills</a>
+        <a href="contact.html" class="hover:text-cyan-400 transition-colors">Contact</a>
+        <a href="inbox.html" class="text-slate-500 hover:text-emerald-400 transition-colors flex items-center space-x-1" title="Zuka's Private Message Inbox">
+          <i class="fas fa-lock text-xs"></i>
+          <span>Inbox</span>
+        </a>
+      </div>
+      <div class="text-slate-500 text-xs">
+        &copy; 2026 Zuka Okropiridze. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/simulators.js"></script>
+  <script>
+    // Project Modal Data
+    const projectData = {
+      'line-follower': {
+        title: 'Autonomous Line Following Robot',
+        code: `// C++ PID Steering Control Loop
+void update_robot_steering() {
+    int error = calculate_sensor_center() - 3500; // 3500 is center
+
+    // Proportional & Derivative calculation
+    float correction = (Kp * error) + (Kd * (error - last_error));
+    last_error = error;
+
+    // Apply motor PWM speeds
+    analogWrite(LEFT_MOTOR_PWM, constrain(BASE_SPEED + correction, 0, 255));
+    analogWrite(RIGHT_MOTOR_PWM, constrain(BASE_SPEED - correction, 0, 255));
+}`,
+        details: 'The robot constantly reads 8 infrared light sensors. As soon as the line bends, the microcontroller calculates the offset error and adjusts the left and right wheel speeds instantly so the robot never flies off the track.'
+      },
+      'smart-home': {
+        title: 'Smart Home Safety & Control',
+        code: `// ESP32 Environmental Safety Check
+void check_home_sensors() {
+    int gas_ppm = analogRead(MQ2_PIN);
+
+    // If flammable gas exceeds safe threshold
+    if (gas_ppm > 400) {
+        digitalWrite(EXHAUST_FAN_RELAY, HIGH); // Turn fan on
+        digitalWrite(GAS_VALVE_RELAY, LOW);   // Shut off gas pipe
+        sound_piezo_alarm();                  // Beep alarm
+    }
+}`,
+        details: 'The ESP32 microcontroller monitors flammable gas and temperature. If a hazardous level of gas is detected, it triggers safety relays to ventilate the room and prevent accidents.'
+      },
+      'rfid-gate': {
+        title: 'RFID Smart Gates & Security Lock',
+        code: `// RFID Key Card Validation
+void check_rfid_card() {
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+        if (is_card_authorized(mfrc522.uid)) {
+            digitalWrite(LOCK_SOLENOID, HIGH); // Release electric lock
+            gate_servo.write(90);               // Lift barrier
+            delay(3500);                        // Wait for person
+            gate_servo.write(0);                // Close barrier
+            digitalWrite(LOCK_SOLENOID, LOW);  // Re-lock
+        }
+    }
+}`,
+        details: 'When a user taps their RFID keycard, the microcontroller reads the serial ID. If it matches an authorized user in memory, it unlocks the electromagnetic latch and turns the servo motor to allow entry.'
+      },
+      'parking-gate': {
+        title: 'Automated Parking Barrier System',
+        code: `// Ultrasonic Distance Vehicle Entry
+void process_parking_gate() {
+    float distance = get_ultrasonic_distance_cm();
+
+    if (distance > 0 && distance < 15.0) { // Car detected
+        if (open_slots > 0) {
+            lift_servo_barrier();
+            open_slots--;
+            update_lcd_screen(open_slots);
+            wait_until_car_passes();
+            lower_servo_barrier();
+        }
+    }
+}`,
+        details: 'Uses sound waves from an ultrasonic sensor to detect when a car stops in front of the gate. It lifts the arm smoothly, updates the screen count, and closes safely after the car passes.'
+      },
+      'traffic-light': {
+        title: 'Synchronized Traffic Light & Crosswalk',
+        code: `// Finite State Machine Traffic Controller
+void update_traffic_state() {
+    if (pedestrian_button_pressed) {
+        // Safely change green to yellow, then red
+        set_light(ROAD_YELLOW);
+        delay(2000);
+        set_light(ROAD_RED);
+        set_crosswalk(WALK_GREEN); // Pedestrians cross safely
+        delay(4000);
+        set_crosswalk(WALK_RED);
+        pedestrian_button_pressed = false;
+    }
+}`,
+        details: 'Coordinates traffic signals cleanly. Pressing the crosswalk button safely stops car traffic and gives pedestrians a dedicated green walking interval.'
+      }
+    };
+
+    const modal = document.getElementById('project-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const closeModalBtn2 = document.getElementById('close-modal-btn2');
+
+    document.querySelectorAll('.open-modal-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (typeof playCyberSound === 'function') playCyberSound('access');
+        const projKey = btn.getAttribute('data-project');
+        const data = projectData[projKey];
+        if (data) {
+          modalTitle.textContent = data.title;
+          modalContent.innerHTML = `
+            <div class="bg-black/90 p-4 rounded-xl border border-cyan-500/30 overflow-x-auto text-xs text-cyan-300">
+              <pre><code>${data.code}</code></pre>
+            </div>
+            <div class="p-4 bg-cyan-950/40 rounded-xl border border-cyan-500/20 text-slate-200 text-sm leading-relaxed">
+              <strong class="text-cyan-400 font-mono">HOW IT WORKS:</strong> ${data.details}
+            </div>
+          `;
+          modal.classList.remove('hidden');
+        }
+      });
+    });
+
+    [closeModalBtn, closeModalBtn2].forEach(b => {
+      b.addEventListener('click', () => {
+        if (typeof playCyberSound === 'function') playCyberSound('click');
+        modal.classList.add('hidden');
+      });
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        if (typeof playCyberSound === 'function') playCyberSound('click');
+        modal.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

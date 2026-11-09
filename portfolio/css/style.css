@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@500;700;800&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --neon-cyan: #00f0ff;
+  --neon-purple: #a855f7;
+  --neon-green: #10b981;
+  --neon-yellow: #facc15;
+  --cyber-dark: #070a13;
+  --cyber-card: rgba(13, 20, 36, 0.85);
+  --cyber-border: rgba(0, 240, 255, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Rajdhani', sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  background-color: #070a13;
+  color: #e2e8f0;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 20% 15%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 80% 85%, rgba(168, 85, 247, 0.05) 0%, transparent 45%),
+    linear-gradient(rgba(0, 240, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Custom Scrollbar - high visibility */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #04060c;
+}
+::-webkit-scrollbar-thumb {
+  background: #00f0ff;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+/* Clean, Readable Glows (Not blinding, gentle on older eyes) */
+.glow-cyan {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.45);
+}
+.glow-purple {
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.45);
+}
+.glow-green {
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.45);
+}
+
+/* Cyber Cards with ample breathing room */
+.cyber-card {
+  background: rgba(14, 21, 38, 0.88);
+  border: 1px solid rgba(0, 240, 255, 0.22);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  transition: all 0.25s ease-in-out;
+}
+.cyber-card:hover {
+  border-color: rgba(0, 240, 255, 0.55);
+  box-shadow: 0 12px 30px -10px rgba(0, 240, 255, 0.18);
+}
+
+/* Clean Corner Brackets */
+.hud-corner {
+  position: relative;
+}
+.hud-corner::before,
+.hud-corner::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+.hud-corner::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid #00f0ff;
+  border-left: 2px solid #00f0ff;
+  border-top-left-radius: 12px;
+}
+.hud-corner::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid #00f0ff;
+  border-right: 2px solid #00f0ff;
+  border-bottom-right-radius: 12px;
+}
+
+/* Cyber Buttons - Large, high contrast, easy to click */
+.cyber-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(56, 189, 248, 0.12));
+  border: 1.5px solid #00f0ff;
+  color: #00f0ff;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.cyber-btn:hover {
+  background: #00f0ff;
+  color: #040711;
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.cyber-btn-purple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(0, 240, 255, 0.08));
+  border: 1.5px solid #a855f7;
+  color: #d8b4fe;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.cyber-btn-purple:hover {
+  background: #a855f7;
+  color: #040711;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.6);
+  transform: translateY(-2px);
+}
+
+.cyber-btn-green {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(0, 240, 255, 0.08));
+  border: 1.5px solid #10b981;
+  color: #34d399;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.cyber-btn-green:hover {
+  background: #10b981;
+  color: #040711;
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Subtle, gentle canvas background */
+#cyber-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* Inputs - Crisp, spacious, accessible */
+input, select, textarea {
+  font-size: 16px !important; /* Prevents auto-zoom on mobile and ensures great legibility */
+}

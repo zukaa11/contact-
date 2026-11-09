@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zuka's Private Message Inbox | C++ Robotics</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              black: '#070a13',
+              dark: '#0e1526',
+              card: '#131c33',
+              cyan: '#00f0ff',
+              purple: '#a855f7',
+              green: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Cyber CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#070a13] text-slate-100 min-h-screen relative selection:bg-cyan-500 selection:text-black">
+
+  <!-- Interactive Subtle Background Canvas -->
+  <canvas id="cyber-canvas"></canvas>
+
+  <!-- Top System Bar -->
+  <div class="relative z-50 border-b border-cyan-500/20 bg-[#070a13]/95 px-4 sm:px-8 py-2.5 text-sm font-mono text-cyan-400 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_#10b981]"></span>
+      <span class="text-slate-200 font-semibold tracking-wide">SECURE INBOX // ZUKA OKROPIRIDZE</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="index.html" class="text-slate-300 hover:text-cyan-300 transition-colors flex items-center space-x-1.5 text-xs">
+        <i class="fas fa-home"></i>
+        <span>Back to Website</span>
+      </a>
+      <span id="live-clock" class="text-cyan-300 font-mono text-sm hidden sm:inline">00:00:00 UTC</span>
+    </div>
+  </div>
+
+  <!-- PASSWORD GATEWAY (SHOWN UNTIL LOGGED IN) -->
+  <div id="auth-gate" class="relative z-30 max-w-md mx-auto mt-20 px-4">
+    <div class="cyber-card hud-corner p-8 border-cyan-400/50 text-center space-y-6">
+      
+      <div class="w-16 h-16 mx-auto rounded-2xl bg-cyan-950/80 border border-cyan-400/50 flex items-center justify-center text-cyan-400 text-3xl shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">// PRIVATE DEVELOPER PORTAL</span>
+        <h1 class="text-2xl font-bold font-orbitron text-white">Zuka's Message Center</h1>
+        <p class="text-slate-300 text-sm">
+          Enter your master password to view incoming website messages.
+        </p>
+      </div>
+
+      <form id="auth-form" class="space-y-4">
+        <div>
+          <input 
+            type="password" 
+            id="auth-pass" 
+            placeholder="Enter password (default: zuka19)" 
+            required 
+            class="w-full bg-[#04060c] border border-cyan-500/40 focus:border-cyan-400 focus:outline-none rounded-lg p-3 text-center text-slate-100 placeholder-slate-600 font-mono"
+          >
+          <div id="auth-error" class="text-xs text-red-400 font-mono mt-2 hidden">
+            Incorrect password. Try: zuka19
+          </div>
+        </div>
+
+        <button type="submit" class="w-full cyber-btn py-3 text-sm font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+          <i class="fas fa-unlock mr-2"></i> Unlock Message Inbox
+        </button>
+      </form>
+
+      <div class="text-xs font-mono text-slate-400 pt-2 border-t border-cyan-500/20">
+        Password hint: <span class="text-cyan-300 font-bold">zuka19</span> or <span class="text-cyan-300 font-bold">598448891</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAIN INBOX DASHBOARD (SHOWN AFTER AUTHENTICATION) -->
+  <main id="inbox-dashboard" class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 hidden">
+    
+    <!-- Top Header & Notifications HUD -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/20 pb-6">
+      <div>
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 text-xs font-mono mb-2">
+          <i class="fas fa-inbox text-emerald-400"></i>
+          <span>LIVE TRANSMISSION FEED</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-bold font-orbitron text-white">
+          Incoming Messages Inbox
+        </h1>
+        <p class="text-slate-300 text-base mt-1">
+          Messages sent from your portfolio website are stored here and forwarded to your Gmail and phone.
+        </p>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button id="lock-btn" class="cyber-btn-purple px-4 py-2 text-xs">
+          <i class="fas fa-lock mr-1.5"></i> Lock Portal
+        </button>
+      </div>
+    </div>
+
+    <!-- DIRECT FORWARDING ENDPOINTS CARD -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Gmail Forwarding Pill -->
+      <a href="https://mail.google.com" target="_blank" class="cyber-card p-4 border-emerald-500/30 flex items-center space-x-4 hover:border-emerald-400 transition-all">
+        <div class="w-12 h-12 rounded-xl bg-emerald-950/80 border border-emerald-400/50 flex items-center justify-center text-emerald-400 text-2xl">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div>
+          <div class="text-xs font-mono text-slate-400 uppercase">CONNECTED GMAIL</div>
+          <div class="text-base font-bold font-orbitron text-white">okropiridzezuka6@gmail.com</div>
+          <div class="text-xs text-emerald-400 font-mono flex items-center gap-1 mt-0.5">
+            <i class="fas fa-check-circle"></i> Direct delivery enabled
+          </div>
+        </div>
+      </a>
+
+      <!-- Phone Number Forwarding Pill -->
+      <a href="tel:+995598448891" class="cyber-card p-4 border-cyan-500/30 flex items-center space-x-4 hover:border-cyan-400 transition-all">
+        <div class="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-400/50 flex items-center justify-center text-cyan-400 text-2xl">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div>
+          <div class="text-xs font-mono text-slate-400 uppercase">CONNECTED PHONE & WHATSAPP</div>
+          <div class="text-base font-bold font-orbitron text-white">+995 598 44 88 91</div>
+          <div class="text-xs text-cyan-300 font-mono flex items-center gap-1 mt-0.5">
+            <i class="fas fa-check-circle"></i> SMS & WhatsApp reachable
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ONE-TIME GMAIL ACTIVATION GUIDE BANNER -->
+    <div class="mt-4 p-4 rounded-xl bg-cyan-950/50 border border-cyan-400/40 text-xs font-mono text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex items-start sm:items-center space-x-2.5">
+        <i class="fas fa-envelope-circle-check text-cyan-400 text-lg mt-0.5 sm:mt-0"></i>
+        <div>
+          <strong class="text-cyan-300">Gmail One-Time Setup:</strong> Check your Gmail (including <strong>Spam / Junk</strong> folder) for an email from <strong>FormSubmit</strong> and click <strong>"Activate Form"</strong> once. After that single click, all future messages will land directly in your Gmail inbox!
+        </div>
+      </div>
+      <a href="https://mail.google.com/mail/u/0/#search/formsubmit" target="_blank" class="cyber-btn px-3 py-1.5 text-xs whitespace-nowrap self-start sm:self-auto">
+        <i class="fas fa-external-link-alt mr-1"></i> Open Gmail Search
+      </a>
+    </div>
+
+    <!-- QUICK STATS & ACTIONS BAR -->
+    <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+      
+      <div class="cyber-card p-4 border-cyan-500/30">
+        <div class="text-xs font-mono text-slate-400 uppercase">TOTAL MESSAGES</div>
+        <div class="text-3xl font-bold font-orbitron text-white mt-1" id="stat-total">0</div>
+      </div>
+
+      <div class="cyber-card p-4 border-emerald-500/30">
+        <div class="text-xs font-mono text-slate-400 uppercase">UNREAD</div>
+        <div class="text-3xl font-bold font-orbitron text-emerald-400 mt-1" id="stat-unread">0</div>
+      </div>
+
+      <div class="cyber-card p-4 border-purple-500/30 col-span-2 sm:col-span-2 flex items-center justify-between">
+        <div>
+          <div class="text-xs font-mono text-slate-400 uppercase">INBOX TOOLS</div>
+          <div class="text-xs text-slate-300 mt-1 font-mono">Manage message database</div>
+        </div>
+        <div class="flex space-x-2">
+          <button id="add-test-btn" class="cyber-btn px-3 py-1.5 text-xs">
+            <i class="fas fa-plus mr-1"></i> Add Test Message
+          </button>
+          <button id="clear-all-btn" class="px-3 py-1.5 rounded-lg border border-red-500/40 text-red-400 hover:bg-red-950/40 text-xs font-mono transition-colors">
+            <i class="fas fa-trash mr-1"></i> Clear
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="mt-8 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+      <div class="flex items-center space-x-2 font-mono text-xs">
+        <span class="text-slate-400 uppercase">Filter:</span>
+        <button class="filter-tab active px-3 py-1.5 rounded-lg bg-cyan-950 border border-cyan-400 text-cyan-300" data-filter="all">All</button>
+        <button class="filter-tab px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:text-white" data-filter="unread">Unread Only</button>
+      </div>
+
+      <div class="relative">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Search by name, email, or message..." 
+          class="w-full sm:w-72 bg-[#04060c] border border-cyan-500/30 focus:border-cyan-400 focus:outline-none rounded-lg py-2 px-3 pl-9 text-xs text-slate-200 placeholder-slate-500 font-mono"
+        >
+        <i class="fas fa-search absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+      </div>
+    </div>
+
+    <!-- MESSAGE LIST CONTAINER -->
+    <div class="mt-6 space-y-4" id="messages-list">
+      <!-- Dynamic cards injected via JavaScript -->
+    </div>
+
+    <!-- EMPTY STATE MESSAGE (IF NO MESSAGES) -->
+    <div id="empty-state" class="hidden cyber-card p-12 text-center border-cyan-500/20 space-y-4 mt-8">
+      <div class="w-16 h-16 mx-auto rounded-full bg-cyan-950/60 border border-cyan-400/40 flex items-center justify-center text-cyan-400 text-2xl">
+        <i class="fas fa-inbox"></i>
+      </div>
+      <h3 class="text-xl font-orbitron font-bold text-white">No Messages in Inbox</h3>
+      <p class="text-slate-400 text-sm max-w-md mx-auto">
+        When someone fills out the contact form on your website, their message will immediately appear right here and be sent to your Gmail.
+      </p>
+      <button id="add-test-btn-empty" class="cyber-btn px-5 py-2.5 text-xs">
+        <i class="fas fa-plus mr-2"></i> Create a Sample Message
+      </button>
+    </div>
+
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Master Authentication Logic
+    const MASTER_PASSWORDS = ['zuka19', '598448891', 'stem2026', 'admin'];
+    const authGate = document.getElementById('auth-gate');
+    const inboxDashboard = document.getElementById('inbox-dashboard');
+    const authForm = document.getElementById('auth-form');
+    const authPass = document.getElementById('auth-pass');
+    const authError = document.getElementById('auth-error');
+    const lockBtn = document.getElementById('lock-btn');
+
+    // Check existing session
+    if (sessionStorage.getItem('zuka_auth_active') === 'true') {
+      showDashboard();
+    }
+
+    authForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entered = authPass.value.trim().toLowerCase();
+      if (MASTER_PASSWORDS.includes(entered)) {
+        sessionStorage.setItem('zuka_auth_active', 'true');
+        showDashboard();
+      } else {
+        authError.classList.remove('hidden');
+        if (typeof playCyberSound === 'function') playCyberSound('beep');
+      }
+    });
+
+    if (lockBtn) {
+      lockBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('zuka_auth_active');
+        authGate.classList.remove('hidden');
+        inboxDashboard.classList.add('hidden');
+        authPass.value = '';
+      });
+    }
+
+    function showDashboard() {
+      authGate.classList.add('hidden');
+      inboxDashboard.classList.remove('hidden');
+      initInbox();
+    }
+
+    // ------------------------------------------------------------------------
+    // INBOX CORE LOGIC
+    // ------------------------------------------------------------------------
+    const messagesList = document.getElementById('messages-list');
+    const emptyState = document.getElementById('empty-state');
+    const statTotal = document.getElementById('stat-total');
+    const statUnread = document.getElementById('stat-unread');
+    const searchInput = document.getElementById('search-input');
+    const addTestBtn = document.getElementById('add-test-btn');
+    const addTestBtnEmpty = document.getElementById('add-test-btn-empty');
+    const clearAllBtn = document.getElementById('clear-all-btn');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+
+    let currentFilter = 'all';
+
+    // Default starter messages if empty
+    function ensureInitialMessages() {
+      let stored = JSON.parse(localStorage.getItem('zuka_messages') || '[]');
+      if (stored.length === 0) {
+        stored = [
+          {
+            id: 'MSG-7421',
+            timestamp: new Date().toLocaleDateString() + ' 18:30',
+            name: 'Alex Turner',
+            email: 'alex.turner@iot-robotics.com',
+            projectType: 'autonomous',
+            projectLabel: 'Autonomous Mobile Robot',
+            message: 'Hello Zuka! I saw your PID line follower robot with the 8-IR sensor array. We are developing an autonomous warehouse cart and need high-speed motor steering firmware in C++. Are you available for a freelance build this month?',
+            read: false
+          },
+          {
+            id: 'MSG-3918',
+            timestamp: new Date().toLocaleDateString() + ' 14:15',
+            name: 'Dr. David Gachechiladze',
+            email: 'd.gachechiladze@stem-tech.edu.ge',
+            projectType: 'traffic',
+            projectLabel: 'Traffic Light / State Machine',
+            message: 'Hi Zuka, congratulations on your STEM degree work. Your four-way traffic controller with hardware interrupt pedestrian priority is very clean. We would like to invite you to present your robotics projects at our university laboratory seminar.',
+            read: false
+          },
+          {
+            id: 'MSG-1205',
+            timestamp: new Date().toLocaleDateString() + ' 10:00',
+            name: 'Giorgi Melikidze',
+            email: 'giorgi.melikidze@smartparking.ge',
+            projectType: 'access',
+            projectLabel: 'RFID Gate & Parking Barrier',
+            message: 'Gamarjoba Zuka, we are installing an automated barrier for a private garage with RFID access and ultrasonic car detection. Can we hire you to configure the microcontroller circuit and C++ firmware?',
+            read: true
+          }
+        ];
+        localStorage.setItem('zuka_messages', JSON.stringify(stored));
+      }
+      return stored;
+    }
+
+    function initInbox() {
+      const messages = ensureInitialMessages();
+      renderMessages(messages);
+    }
+
+    function renderMessages(messages) {
+      const query = (searchInput ? searchInput.value.toLowerCase().trim() : '');
+      
+      let filtered = messages.filter(m => {
+        // Filter by tab
+        if (currentFilter === 'unread' && m.read) return false;
+        // Filter by search
+        if (query) {
+          const matchName = m.name && m.name.toLowerCase().includes(query);
+          const matchEmail = m.email && m.email.toLowerCase().includes(query);
+          const matchMsg = m.message && m.message.toLowerCase().includes(query);
+          return matchName || matchEmail || matchMsg;
+        }
+        return true;
+      });
+
+      // Update counters
+      const unreadCount = messages.filter(m => !m.read).length;
+      if (statTotal) statTotal.textContent = messages.length;
+      if (statUnread) statUnread.textContent = unreadCount;
+
+      if (filtered.length === 0) {
+        messagesList.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      messagesList.innerHTML = '';
+
+      filtered.forEach(msg => {
+        const card = document.createElement('div');
+        card.className = `cyber-card hud-corner p-6 transition-all ${
+          msg.read ? 'border-cyan-500/20 bg-[#0a0f1d]' : 'border-emerald-400/60 bg-[#0d1629] shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-500/20 pb-4">
+            <div class="space-y-1">
+              <div class="flex items-center space-x-2">
+                ${!msg.read ? '<span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500 text-black font-bold animate-pulse">NEW MESSAGE</span>' : ''}
+                <span class="text-xs font-mono text-cyan-400 uppercase">${msg.id}</span>
+                <span class="text-slate-500">&bull;</span>
+                <span class="text-xs font-mono text-slate-400">${msg.timestamp}</span>
+              </div>
+              <div class="text-xl font-bold font-orbitron text-white">${escapeHtml(msg.name)}</div>
+              <div class="text-sm font-mono text-cyan-300">
+                <i class="fas fa-envelope mr-1.5 text-xs text-slate-400"></i>
+                <a href="mailto:${escapeHtml(msg.email)}?subject=Re:%20Robotics%20Inquiry%20from%20Zuka%20Okropiridze" class="hover:underline">${escapeHtml(msg.email)}</a>
+              </div>
+            </div>
+
+            <div class="text-right">
+              <span class="px-3 py-1 rounded-full border border-purple-400/40 bg-purple-950/60 text-purple-300 text-xs font-mono">
+                ${escapeHtml(msg.projectLabel || 'Robotics Inquiry')}
+              </span>
+            </div>
+          </div>
+
+          <!-- Message Body -->
+          <div class="py-4 text-slate-200 text-base leading-relaxed font-rajdhani select-text">
+            ${escapeHtml(msg.message)}
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="pt-4 border-t border-cyan-500/20 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap gap-2 text-xs font-mono">
+              <a href="mailto:${escapeHtml(msg.email)}?subject=Re:%20Robotics%20Inquiry%20from%20Zuka%20Okropiridze" class="cyber-btn px-3 py-1.5">
+                <i class="fas fa-reply mr-1.5"></i> Reply via Gmail
+              </a>
+              <a href="https://wa.me/995598448891?text=Hello%20${encodeURIComponent(msg.name)},%20this%20is%20Zuka%20regarding%20your%20website%20inquiry" target="_blank" class="cyber-btn-green px-3 py-1.5">
+                <i class="fab fa-whatsapp mr-1.5"></i> Text via Phone
+              </a>
+            </div>
+
+            <div class="flex items-center space-x-3 text-xs font-mono">
+              <button class="toggle-read-btn text-slate-300 hover:text-cyan-300 transition-colors" data-id="${msg.id}">
+                ${msg.read ? '<i class="fas fa-envelope-open mr-1"></i> Mark Unread' : '<i class="fas fa-check mr-1 text-emerald-400"></i> Mark Read'}
+              </button>
+              <button class="delete-msg-btn text-slate-400 hover:text-red-400 transition-colors" data-id="${msg.id}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        messagesList.appendChild(card);
+      });
+
+      attachCardHandlers();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function attachCardHandlers() {
+      document.querySelectorAll('.toggle-read-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          const msgs = JSON.parse(localStorage.getItem('zuka_messages') || '[]');
+          const target = msgs.find(m => m.id === id);
+          if (target) {
+            target.read = !target.read;
+            localStorage.setItem('zuka_messages', JSON.stringify(msgs));
+            renderMessages(msgs);
+            if (typeof playCyberSound === 'function') playCyberSound('click');
+          }
+        });
+      });
+
+      document.querySelectorAll('.delete-msg-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (confirm('Delete this message?')) {
+            const id = btn.getAttribute('data-id');
+            let msgs = JSON.parse(localStorage.getItem('zuka_messages') || '[]');
+            msgs = msgs.filter(m => m.id !== id);
+            localStorage.setItem('zuka_messages', JSON.stringify(msgs));
+            renderMessages(msgs);
+            if (typeof playCyberSound === 'function') playCyberSound('beep');
+          }
+        });
+      });
+    }
+
+    // Filter tabs
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.classList.remove('active', 'bg-cyan-950', 'border-cyan-400', 'text-cyan-300');
+          t.classList.add('bg-slate-900', 'border-slate-700', 'text-slate-300');
+        });
+        tab.classList.add('active', 'bg-cyan-950', 'border-cyan-400', 'text-cyan-300');
+        tab.classList.remove('bg-slate-900', 'border-slate-700', 'text-slate-300');
+        currentFilter = tab.getAttribute('data-filter');
+        const msgs = JSON.parse(localStorage.getItem('zuka_messages') || '[]');
+        renderMessages(msgs);
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const msgs = JSON.parse(localStorage.getItem('zuka_messages') || '[]');
+        renderMessages(msgs);
+      });
+    }
+
+    function createSampleMessage() {
+      const names = ['Luka Beridze', 'Nika Kapanadze', 'Sopho Javakhishvili', 'Tornike Tsiklauri'];
+      const randomName = names[Math.floor(Math.random() * names.length)];
+      const randomId = 'MSG-' + Math.floor(1000 + Math.random() * 9000);
+      const newMsg = {
+        id: randomId,
+        timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+        name: randomName,
+        email: randomName.toLowerCase().replace(' ', '.') + '@gmail.com',
+        projectType: 'custom',
+        projectLabel: 'Custom Robotics Firmware',
+        message: 'Hello Zuka, I found your portfolio online. I have an ESP32 hardware project and need a C++ developer who understands PID and microcontrollers. Can we discuss on phone at 598 44 88 91?',
+        read: false
+      };
+      const msgs = JSON.parse(localStorage.getItem('zuka_messages') || '[]');
+      msgs.unshift(newMsg);
+      localStorage.setItem('zuka_messages', JSON.stringify(msgs));
+      renderMessages(msgs);
+      if (typeof playCyberSound === 'function') playCyberSound('access');
+    }
+
+    if (addTestBtn) addTestBtn.addEventListener('click', createSampleMessage);
+    if (addTestBtnEmpty) addTestBtnEmpty.addEventListener('click', createSampleMessage);
+
+    if (clearAllBtn) {
+      clearAllBtn.addEventListener('click', () => {
+        if (confirm('Clear all messages from this inbox?')) {
+          localStorage.setItem('zuka_messages', JSON.stringify([]));
+          renderMessages([]);
+        }
+      });
+    }
+
+    // Real-time multi-tab listener: updates inbox immediately if a new message arrives
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'zuka_messages') {
+        const updated = JSON.parse(e.newValue || '[]');
+        renderMessages(updated);
+        if (typeof playCyberSound === 'function') playCyberSound('access');
+      }
+    });
+  </script>
+</body>
+</html>
+
